@@ -2,7 +2,7 @@
 
 AMI_ID=ami-09c813fb71547fc4f
 SG_ID=sg-063265bfaadd1ddd9
-INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shippig" "payment" "dspatch" "frontend")
+INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
 ZONE_ID=Z104650557V08CNWBHYW
 DOMAIN_NAME="dcloudlab.site"
 
