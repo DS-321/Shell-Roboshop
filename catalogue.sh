@@ -71,3 +71,4 @@ dnf install mongodb-mongosh -y &>>$log_file
 validate $? "Installing Mongodb client"
 
 mongosh --host mongodb.dcloudlab.site </app/db/master-data.js
+validate $? "Loading data in to Mongodb"
