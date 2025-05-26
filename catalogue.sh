@@ -80,7 +80,7 @@ validate $? "Installing Mongodb client"
 
 STATUS=$(mongosh --host mongodb.dcloudlab.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 
-if [ $? -lt 0 ]
+if [ $STATUS -lt 0 ]
 then
     mongosh --host mongodb.dcloudlab.site </app/db/master-data.js &>>$log_file
     validate $? "Loading data in to Mongodb"
