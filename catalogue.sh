@@ -59,6 +59,7 @@ curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue
 validate $? "dowingloading the Catalogue"
 
 cd /app 
+rm -rf /app/*
 unzip /tmp/catalogue.zip &>>$log_file
 validate $? "unzipping catalogue"
 
