@@ -78,5 +78,12 @@ cp $script_dir/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$log_file
 validate $? "Installing Mongodb client"
 
-mongosh --host mongodb.dcloudlab.site </app/db/master-data.js &>>$log_file
-validate $? "Loading data in to Mongodb"
+STATUS=$(mongosh --host mongodb.dcloudlab.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+
+if [ $? -lt 0 ]
+then
+    mongosh --host mongodb.dcloudlab.site </app/db/master-data.js &>>$log_file
+    validate $? "Loading data in to Mongodb"
+else
+    echo -e "Data already loaded in Mongodb: $Y SKIPPING $N"
+fi
