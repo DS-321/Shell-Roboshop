@@ -56,7 +56,7 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip &>>$log_file
 validate $? "Unzipping the frontend"
 
-rm-rf /etc/nginx/nginx.conf 
+rm -rf /etc/nginx/nginx.conf &>>$log_file
 validate $? "remove deafult nginx.conf"
 
 cp $script_dir/nginx.conf /etc/nginx/nginx.conf 
