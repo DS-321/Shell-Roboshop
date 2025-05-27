@@ -37,16 +37,16 @@ validate(){
 }
 
 dnf install mysql-server -y &>>$log_file
-VALIDATE $? "Installing MySQL server"
+validate $? "Installing MySQL server"
 
 systemctl enable mysqld &>>$log_file
-VALIDATE $? "Enabling MySQL"
+validate $? "Enabling MySQL"
 
 systemctl start mysqld   &>>$log_file
-VALIDATE $? "Starting MySQL"
+validate $? "Starting MySQL"
 
 mysql_secure_installation --set-root-pass $MYSQL_ROOT_PASSWORD &>>$log_file
-VALIDATE $? "Setting MySQL root password"
+validate $? "Setting MySQL root password"
 
 END_TIME=$(date +%s)
 TOTAL_TIME=$(( $END_TIME - $START_TIME ))
