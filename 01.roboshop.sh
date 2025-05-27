@@ -6,6 +6,7 @@ INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipp
 ZONE_ID=Z104650557V08CNWBHYW
 DOMAIN_NAME="dcloudlab.site"
 
+#for instance in ${INSTANCES[@]}
 for instance in ${INSTANCES[@]}
 
 do
