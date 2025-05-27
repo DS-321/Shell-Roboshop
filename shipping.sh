@@ -36,14 +36,14 @@ validate(){
     fi        
 }
 
-dnf install maven -y &>>$LOG_FILE
-VALIDATE $? "Installing Maven and Java"
+dnf install maven -y &>>$log_file
+validate $? "Installing Maven and Java"
 
-id roboshop &>>$LOG_FILE
+id roboshop &>>$log_file
 if [ $? -ne 0 ]
 then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
-    VALIDATE $? "Creating roboshop system user"
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log_file
+    validate $? "Creating roboshop system user"
 else
     echo -e "System user roboshop already created ... $Y SKIPPING $N"
 fi
