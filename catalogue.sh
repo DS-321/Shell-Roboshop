@@ -70,7 +70,7 @@ cp $script_dir/catalogue.service /etc/systemd/system/catalogue.service
 validate $? "copying catalogue.service"
 
 systemctl daemon-reload
-systemctl enable catalogue 
+systemctl enable catalogue &>>$log_file
 systemctl start catalogue
 validate $? "Starting Catalogue"
 
