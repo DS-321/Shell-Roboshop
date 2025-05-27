@@ -1,5 +1,6 @@
 #!/bin/bash
-
+START_TIME=$(date +%s)
+USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -13,7 +14,6 @@ script_dir=$PWD
 mkdir -p $logs_folder
 echo "script started executing at: $(date)" | tee -a $log_file
 
-Userid=$(id -u)
 if [ $Userid -ne 0 ]
     then
     echo -e "$R ERROR: You are not running with root access $N" | tee -a $log_file
@@ -45,7 +45,7 @@ id roboshop
 if [ $? -ne 0 ]
 
 then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log_file
     validate $? "Creating Roboshop system user"
 else
     echo -e "system user roboshop already created :$Y SKIPPING $N"
@@ -54,35 +54,26 @@ fi
 mkdir -p /app
 validate $? "Creating App directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$log_file
-validate $? "dowingloading the Catalogue"
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$log_file
+validate $? "downloading the user"
 
 cd /app 
 rm -rf /app/*
-unzip /tmp/catalogue.zip &>>$log_file
-validate $? "unzipping catalogue"
+unzip /tmp/user.zip &>>$log_file
+validate $? "unzipping user"
 
 npm install &>>$log_file
 validate $? "Installing Dependencies"
 
-cp $script_dir/catalogue.service /etc/systemd/system/catalogue.service
-validate $? "copying catalogue.service"
+cp $script_dir/user.service /etc/systemd/system/user.service
+validate $? "copying user.service"
 
 systemctl daemon-reload
-systemctl enable catalogue &>>$log_file
-systemctl start catalogue
-validate $? "Starting Catalogue"
+systemctl enable user &>>$log_file
+systemctl start user
+validate $? "Starting user"
 
-cp $script_dir/mongo.repo /etc/yum.repos.d/mongo.repo
-dnf install mongodb-mongosh -y &>>$log_file
-validate $? "Installing Mongodb client"
+END_TIME=$(date +%s)
+TOTAL_TIME=$(( $END_TIME - $START_TIME ))
 
-STATUS=$(mongosh --host mongodb.dcloudlab.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
-
-if [ $STATUS -lt 0 ]
-then
-    mongosh --host mongodb.dcloudlab.site </app/db/master-data.js &>>$log_file
-    validate $? "Loading data in to Mongodb"
-else
-    echo -e "Data already loaded in Mongodb: $Y SKIPPING $N"
-fi
+echo -e "Script exection completed successfully, $Y time taken: $TOTAL_TIME seconds $N" | tee -a $log_file
