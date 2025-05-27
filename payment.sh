@@ -22,9 +22,6 @@ if [ $Userid -ne 0 ]
     echo "You are running with root access" | tee -a $log_file
 fi
 
-echo "Please enter root password to setup"
-read -s MYSQL_ROOT_PASSWORD
-
 validate(){
 
     if [ $1 -eq 0 ]
