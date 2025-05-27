@@ -1,14 +1,14 @@
 [Unit]
 Description = Cart Service
-
 [Service]
 User=roboshop
-Environment=MONGO=true
 // highlight-start
-Environment=MONGO_URL="mongodb://mongodb.dcloudlab.site:27017/catalogue"
+Environment=REDIS_HOST=redis.dcloudlab.site
+Environment=CATALOGUE_HOST=catalogue.dcloudlab.site
+Environment=CATALOGUE_PORT=8080
 // highlight-end
 ExecStart=/bin/node /app/server.js
-SyslogIdentifier=catalogue
+SyslogIdentifier=cart
 
 [Install]
 WantedBy=multi-user.target
